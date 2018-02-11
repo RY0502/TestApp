@@ -4,6 +4,7 @@ const http = require('http');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 var serviceLayer = require('./Service');
+var mongoDb = require('./Database');
 
 var app = express()
     .use(express.static(__dirname + '/static_content', { 'index': [/*'HTMLPage1.html',*/ 'index.htm'] }))
@@ -11,6 +12,7 @@ var app = express()
     app.route('/')
     .all(function (req, res, next) {
         res.write('all\n');
+        
         next();
     })
     .get(function (req, res, next) {

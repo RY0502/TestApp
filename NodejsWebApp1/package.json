@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "http": "0.0.0",
+    "mongoose": "^5.0.4",
     "serve-index": "^1.9.1",
     "underscore": "^1.8.3"
   }
