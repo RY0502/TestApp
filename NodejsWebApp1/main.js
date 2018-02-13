@@ -30,7 +30,10 @@ app.route('/')
 app.use('/buildDB', function (req, res, next) {
     var urls = serviceLayer.dbBuilderService.dataURLs(function (err, data) {
         var users = JSON.parse(data);
-        console.log(users._links.teams);
+        console.log(users._links.teams.href);
+        serviceLayer.dbBuilderService.getTeamData(users._links.teams.href, function (err, data) {
+            
+        })
         res.send(data);
     });
 });
