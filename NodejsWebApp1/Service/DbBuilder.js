@@ -79,5 +79,6 @@ function saveFixturesToDB(resp, fixturesObject) {
                 console.log(fixture);
         });
     }
+    //Method call here for saving next in line team/player. Move reponse.end to the last method
     resp.end();
 }
