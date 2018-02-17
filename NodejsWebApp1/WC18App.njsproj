@@ -29,6 +29,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Database\Connection.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Database\DbBuilder.js">
       <SubType>Code</SubType>
     </Compile>
@@ -36,17 +39,42 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main.js" />
+    <Compile Include="Database\Model\Fixture.js" />
+    <Compile Include="Database\Model\index.js" />
+    <Compile Include="Database\Model\Player.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Database\Model\Team.js" />
     <Compile Include="Service\DbBuilder.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Service\index.js" />
+    <Compile Include="Service\Model\Fixture.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service\Model\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service\Model\Player.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service\Model\Team.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utils\index.js" />
+    <Compile Include="Utils\RequestUtils.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="static_content\HTMLPage1.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
+    <Folder Include="Database\Model\" />
     <Folder Include="Service\" />
+    <Folder Include="Service\Model\" />
+    <Folder Include="static_content\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
