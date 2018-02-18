@@ -35,6 +35,9 @@
     <Compile Include="Database\DbBuilder.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Database\FixtureDbOps.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Database\index.js">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +49,9 @@
     </Compile>
     <Compile Include="Database\Model\Team.js" />
     <Compile Include="Service\DbBuilder.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service\FixtureService.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Service\index.js" />

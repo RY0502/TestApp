@@ -4,6 +4,6 @@ var uri = "mongodb://admin:rtvwc18@wc18-shard-00-00-xplty.mongodb.net:27017,wc18
 
 exports.connect = mongoose.connect(uri, { autoIndex: false }, function (err) {
     if (err) throw err;
-    console.log('Successfully connected');
+    console.log('Successfully connected DB');
 
 });

@@ -3,7 +3,6 @@ var reqUtil = require('../Utils');
 var request = require('request');
 //var async = require('async');
 //var Team = require('../Model/Team');
-var dbModels = require('../Database/Model');
 var db = require('../Database');
 
 exports.dataURLs = function (callback) {
@@ -62,23 +61,8 @@ function saveFixtures(res, urlObject) {
 
 function saveFixturesToDB(resp, fixturesObject) {
     var fixtureData = fixturesObject.fixtures;
-    var fixturesLength = fixtureData.length;
-    db.dbConnection.connect;
-    for(var i = 0; i < fixturesLength; i++) {
-        var fixture = fixtureData[i];
-        dbModels.dbFixtureModel.fixtureModel.create({
-            matchday: fixture.matchday,
-            status: fixture.status,
-            matchdate: fixture.date,
-            teamhome: fixture.homeTeamName,
-            teamaway: fixture.awayTeamName,
-            result: [{ teamhomegoal: null, teamawaygoal: null }]
-        },
-            function (err, fixture) {
-                if (err) return res.status(500).send("There was a problem adding the information to the database.");
-                console.log(fixture);
-        });
-    }
-    //Method call here for saving next in line team/player. Move reponse.end to the last method
-    resp.end();
+    db.saveFixtures.saveFixturesToDB(fixtureData, function () {
+        //Method call here for saving next in line team/player. Move reponse.end to the last method
+        resp.end();
+    })
 }
