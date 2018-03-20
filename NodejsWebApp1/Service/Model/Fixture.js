@@ -1,4 +1,4 @@
-﻿//Model structure for service layer entities. Must ne in sync with database Model entities for consistency
+﻿//Model structure for service layer entities. Must be in sync with database Model entities for consistency
 
 exports.fixtureServObj = function Fixture (data) {
     this.matchday = data.matchday;
