@@ -1,8 +1,9 @@
-﻿var reqUtil = require('../Utils');
+﻿//var http = require('http');
+var reqUtil = require('../Utils');
 var request = require('request');
 //var async = require('async');
+//var Team = require('../Model/Team');
 var db = require('../Database');
-var XLSX = require('xlsx');
 
 exports.dataURLs = function (callback) {
     http.get('http://api.football-data.org/v1/competitions/467',
@@ -62,43 +63,6 @@ function saveFixturesToDB(resp, fixturesObject) {
     var fixtureData = fixturesObject.fixtures;
     db.saveFixtures.saveFixturesToDB(fixtureData, function () {
         //Method call here for saving next in line team/player. Move reponse.end to the last method
-        //resp.end();
-        savePlayers(resp);
+        resp.end();
     })
-
-    function savePlayers(resp) {
-        var workbook = XLSX.readFile(__dirname+'/../resources/player.xlsx');
-        var first_sheet_name = workbook.SheetNames[0]
-        var worksheet = workbook.Sheets[first_sheet_name];
-            var headers = {};
-            var data = [];
-            for (z in worksheet) {
-                if (z[0] === '!') continue;
-                //parse out the column, row, and value
-                var tt = 0;
-                for (var i = 0; i < z.length; i++) {
-                    if (!isNaN(z[i])) {
-                        tt = i;
-                        break;
-                    }
-                };
-                var col = z.substring(0, tt);
-                var row = parseInt(z.substring(tt));
-                var value = worksheet[z].v;
-
-                //store header names
-                if (row == 1 && value) {
-                    headers[col] = value;
-                    continue;
-                }
-
-                if (!data[row]) data[row] = {};
-                data[row][headers[col]] = value;
-            }
-            //drop those first two rows which are empty
-            data.shift();
-            data.shift();
-            console.log(data);
-
-    }
 }

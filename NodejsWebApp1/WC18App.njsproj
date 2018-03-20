@@ -73,17 +73,14 @@
     </Compile>
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="resources\player.xlsx" />
     <Content Include="static_content\HTMLPage1.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
     <Folder Include="Database\Model\" />
-    <Folder Include="resources\" />
     <Folder Include="Service\" />
     <Folder Include="Service\Model\" />
     <Folder Include="static_content\" />
-    <Folder Include="static_content\wc18\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

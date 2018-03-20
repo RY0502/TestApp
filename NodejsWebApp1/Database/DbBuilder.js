@@ -1,7 +1,9 @@
 ﻿var dbModels = require('./Model');
+//var connectionObj = require('./Connection');
 
 exports.saveFixturesToDB = function (fixtureData, callback) {
     var fixturesLength = fixtureData.length;
+    //connectionObj.connect;
     for (var i = 0; i < fixturesLength; i++) {
         var fixture = fixtureData[i];
         dbModels.dbFixtureModel.fixtureModel.create({
