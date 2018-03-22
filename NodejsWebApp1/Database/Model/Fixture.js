@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var FixtureSchema = mongoose.Schema({
+var fixtureSchema = mongoose.Schema({
     matchday: Number,
     status: String,
     matchdate: Date,
@@ -9,4 +9,4 @@ var FixtureSchema = mongoose.Schema({
     result: [{ teamhomegoal: Number, teamawaygoal: Number }]
 });
 
-exports.fixtureModel = mongoose.model('Fixture', FixtureSchema);
+exports.fixtureModel = mongoose.model('Fixture', fixtureSchema);

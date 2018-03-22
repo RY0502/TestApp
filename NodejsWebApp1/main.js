@@ -20,6 +20,12 @@ var app = express()
     app.get('/getfixtures', function (req, res, next) {
         serviceLayer.getFixtureService.getFixtures(req, res);
     })
+    app.get('/getteams', function (req, res, next) {
+        serviceLayer.getTeamService.getTeams(req, res);
+    })
+    app.get('/getplayers', function (req, res, next) {
+        serviceLayer.getPlayerService.getPlayers(req, res);
+    })
     app.put('/', function (req, res, next) {
         res.end('put');
     })
@@ -30,14 +36,6 @@ var app = express()
         res.end('delete');
     })
     app.get('/buildDB', function (req, res, next) {
-    //var urls = serviceLayer.dbBuilderService.dataURLs(function (err, data) {
-      //  var users = JSON.parse(data);
-      //  console.log(users._links.teams.href);
-       // serviceLayer.dbBuilderService.getTeamData(users._links.teams.href, function (err, data) {
-            
-        //})
-        //res.send(data);
-    //});
        serviceLayer.dbBuilderService.extractAndSaveData(req, res);
 });
 app.listen(3000);

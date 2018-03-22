@@ -4,70 +4,42 @@ var request = require('request');
 var db = require('../Database');
 var XLSX = require('xlsx');
 
-exports.dataURLs = function (callback) {
-    http.get('http://api.football-data.org/v1/competitions/467',
-        resp => {
-            let data = '';
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
-            });
-            // The whole response has been received.
-            resp.on('end', () => {
-                var result = JSON.parse(data);
-                // setTimeout(callback, 10000, data);
-                callback(null, data);
-            });
-
-        }).on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
-}
-
-//exports.getTeamData = function (url, callback) {
-//    request(url, function (err, resp, body) {
-//        if (err) { console.log(err); callback(true); return; }
-//        let teamArr = new Array;
-//        teamArr = JSON.parse(body).teams;
-//        teamArr.forEach(res => {
-//            // console.log(res);
-//            saveTeamData(res, function (err, data) { })
-//        })
-//        callback(false, teamArr);
-//    })
-//}
-
-//saveTeamData = function (team, callback) {
-//    Team.create({
-//        name: team.name,
-//        code: team.code,
-//        crestUrl: team.crestUrl
-//    },
-//        function (err, team) {
-//            // if (err) return res.status(500).send("There was a problem adding the information to the database.");
-//            callback(err, team);
-//        })
-//}
-
 exports.extractAndSaveData = function (req, res) {
     reqUtil.requestUtil.getDataFromURL('http://api.football-data.org/v1/competitions/467', res, saveFixtures);
 }
 
 function saveFixtures(res, urlObject) {
     var fixtureUrl = urlObject._links.fixtures.href;
+    var saveFixturesToDB = function (resObj, fixturesObject) {
+        var fixtureData = fixturesObject.fixtures;
+        db.dbBuilderOps.saveFixturesToDB(fixtureData, function () {
+            saveTeams(resObj, urlObject);
+        })
+     }
     reqUtil.requestUtil.getDataFromURL(fixtureUrl, res, saveFixturesToDB);
 }
 
-function saveFixturesToDB(resp, fixturesObject) {
-    var fixtureData = fixturesObject.fixtures;
-    db.saveFixtures.saveFixturesToDB(fixtureData, function () {
-        //Method call here for saving next in line team/player. Move reponse.end to the last method
-        //resp.end();
-        savePlayers(resp);
-    })
+function saveTeams(res, urlObject) {
+    var teamUrl = urlObject._links.teams.href;
+    var saveTeamsToDB = function (resObj, teamObject) {
+        var teamData = teamObject.teams;
+        db.dbBuilderOps.saveTeamsToDB(teamData, function (savedTeams) {
+            savePlayers(resObj, savedTeams);
+        })
+    }
+    reqUtil.requestUtil.getDataFromURL(teamUrl, res, saveTeamsToDB);
+}
 
-    function savePlayers(resp) {
-        var workbook = XLSX.readFile(__dirname+'/../resources/player.xlsx');
+    function savePlayers(resp, teams) {
+        var workbook = XLSX.readFile(__dirname + '/../resources/player.xlsx');
+        var teamPlayerMap = {};
+        for (var i = 0; i < teams.length; i++) {
+            var team = teams[i];
+            if (teamPlayerMap[team.name] == undefined) {
+                teamPlayerMap[team.name] = [];
+            }
+
+        }
         var first_sheet_name = workbook.SheetNames[0]
         var worksheet = workbook.Sheets[first_sheet_name];
             var headers = {};
@@ -92,13 +64,26 @@ function saveFixturesToDB(resp, fixturesObject) {
                     continue;
                 }
 
-                if (!data[row]) data[row] = {};
-                data[row][headers[col]] = value;
+                if (!data[row]) {
+                    data[row] = {};
+                    if (row > 2) {
+                        var playerObj = data[row - 1];
+                        if (teamPlayerMap[playerObj.country] != undefined) {
+                            teamPlayerMap[playerObj.country].push(playerObj);
+                        }
+                    }
+                }
+                if (headers[col] == 'positionpreferred') {
+                    var newVal = value.replace(/ /g, ", ");
+                    data[row][headers[col]] = newVal;
+                } else {
+                    data[row][headers[col]] = value;
+                }
             }
-            //drop those first two rows which are empty
-            data.shift();
-            data.shift();
-            console.log(data);
+        db.dbBuilderOps.savePlayersToDB(teamPlayerMap, function (savedPlayers) {
+            //console.log(savedPlayers);
+            resp.write("Successfully build DB");
+            resp.end();
+        });
 
     }
-}

@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 
-var teamschema = mongoose.schema({
-    name: string,
-    code: string,
-    cresturl: string
+var teamSchema = mongoose.Schema({
+    name: String,
+    code: String,
+    cresturl: String
 });
-exports.teamObj = mongoose.model('team', teamschema);
 
-//module.exports = mongoose.model('team');
+exports.teamModel = mongoose.model('team', teamSchema);

@@ -1,2 +1,2 @@
-﻿exports.serviceFixtureModel = require('./Fixture');
-exports.servicePlayerModel = require('./Player');
+﻿//exports.serviceFixtureModel = require('./Fixture');
+//exports.servicePlayerModel = require('./Player');

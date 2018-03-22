@@ -6,5 +6,7 @@ mongoose.connect(uri, { autoIndex: false }, function (err) {
     if (err) throw err;
     console.log('Successfully connected');
 });
-exports.saveFixtures = require('./DbBuilder');
+exports.dbBuilderOps = require('./DbBuilder');
 exports.getFixtures = require('./FixtureDbOps');
+exports.getTeams = require('./TeamDbOps');
+exports.getPlayers = require('./PlayerDbOps');
