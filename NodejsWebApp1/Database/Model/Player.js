@@ -3,7 +3,6 @@
 var PlayerSchema = mongoose.Schema({
     name: String,
     preferredposition: String,
-    dob: Date,
     imagelink: String,
     team: String
 });
