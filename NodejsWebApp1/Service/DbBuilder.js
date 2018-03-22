@@ -74,7 +74,7 @@ function saveTeams(res, urlObject) {
                     }
                 }
                 if (headers[col] == 'positionpreferred') {
-                    var newVal = value.replace(/ /g, ", ");
+                    var newVal = value.trim().replace(/ /g, ", ");
                     data[row][headers[col]] = newVal;
                 } else {
                     data[row][headers[col]] = value;

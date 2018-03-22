@@ -39,7 +39,7 @@ exports.saveTeamsToDB = function (teamData, callback) {
         dbModels.dbTeamModel.teamModel.insertMany(teamArr,
             function (err, teams) {
                 if (err) return res.status(500).send("There was a problem in adding team information to the database.");
-                console.log(teams);
+                //console.log(teams);
                 callback(teams);
             });
     }
