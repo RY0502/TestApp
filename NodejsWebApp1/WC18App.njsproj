@@ -84,6 +84,9 @@
     <Compile Include="Utils\RequestUtils.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\ResponseUtils.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="resources\player.xlsx" />
