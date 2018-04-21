@@ -22,11 +22,10 @@ exports.getFixtures = function (req, res) {
     var fixtureFindPromise = fixtureDb.getFixtures.getFixturesFromDb(fixtureToGet);
 
     fixtureFindPromise.then(function (data) {
+        utils.setResponseHeaders.setSuccessHeaders(res);
         res.send(data);
     }).catch(function (reason) {
-            console.log('Fixture fetch failed with:', reason);
+        console.log('Fixture fetch failed with:', reason);
+        utils.setResponseHeaders.setFailureHeaders(res);
      });
-    //var fixtures = fixtureDb.getFixtures.getFixturesFromDb(fixtureToGet, function (data) {
-      //  res.send(data);
-    //});
 }
