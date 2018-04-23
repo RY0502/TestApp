@@ -52,6 +52,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Database\Model\Team.js" />
+    <Compile Include="resources\properties\devproperties.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="resources\properties\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="resources\properties\prodproperties.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Service\DbBuilder.js">
       <SubType>Code</SubType>
     </Compile>
@@ -96,6 +105,7 @@
     <Folder Include="Database\" />
     <Folder Include="Database\Model\" />
     <Folder Include="resources\" />
+    <Folder Include="resources\properties\" />
     <Folder Include="Service\" />
     <Folder Include="Service\Model\" />
     <Folder Include="static_content\" />

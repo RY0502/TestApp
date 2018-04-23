@@ -5,7 +5,7 @@ var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 var bodyParser = require('body-parser');
 var serviceLayer = require('./Service');
-//var mongoDb = require('./Database');
+var env = require('./resources/properties');
 
 var app = express()
     .use(express.static(__dirname + '/static_content', { 'index': [/*'HTMLPage1.html',*/ 'index.htm'] }))
@@ -38,4 +38,4 @@ var app = express()
     app.get('/buildDB', function (req, res, next) {
        serviceLayer.dbBuilderService.extractAndSaveData(req, res);
 });
-app.listen(3000);
+app.listen(env.runport);
