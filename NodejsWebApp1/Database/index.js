@@ -11,3 +11,4 @@ exports.dbBuilderOps = require('./DbBuilder');
 exports.getFixtures = require('./FixtureDbOps');
 exports.getTeams = require('./TeamDbOps');
 exports.getPlayers = require('./PlayerDbOps');
+exports.getNews = require('./NewsDbOps');

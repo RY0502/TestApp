@@ -14,10 +14,8 @@ exports.getFixturesFromDb = function (match) {
             .limit(1)
             .exec(function (err, fixtures) {
                 if (err) {
-                    //return console.error(err);
                     deferred.reject(new Error(err));
                 }
-                //callback(fixtures);
                 deferred.resolve(fixtures);
             });
 
@@ -27,20 +25,16 @@ exports.getFixturesFromDb = function (match) {
             .limit(1)
             .exec(function (err, fixtures) {
                 if (err) {
-                    //return console.error(err);
                     deferred.reject(new Error(err));
                 }
-                //callback(fixtures);
                 deferred.resolve(fixtures);
             });
 
     } else {
         fixMod.find(function (err, fixtures) {
             if (err) {
-                //return console.error(err);
                 deferred.reject(new Error(err));
             }
-            //callback(fixtures);
             deferred.resolve(fixtures);
         });
     }

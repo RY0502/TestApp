@@ -6,9 +6,11 @@ var serveIndex = require('serve-index');
 var bodyParser = require('body-parser');
 var serviceLayer = require('./Service');
 var env = require('./resources/properties');
+var crontab = require('node-crontab');
+const staticcontent = __dirname + '/static_content';
 
 var app = express()
-    .use(express.static(__dirname + '/static_content', { 'index': [/*'HTMLPage1.html',*/ 'index.htm'] }))
+    .use(express.static(staticcontent, { 'index': [/*'HTMLPage1.html',*/ 'index.htm'] }))
 //.use(serveIndex(__dirname + '/static_content'))
     app.all('/', function (req, res, next) {
         res.write('all\n');
@@ -38,4 +40,23 @@ var app = express()
     app.get('/buildDB', function (req, res, next) {
        serviceLayer.dbBuilderService.extractAndSaveData(req, res);
 });
-app.listen(env.runport);
+
+
+
+var newspromise = serviceLayer.getNewsService.initialisenews(staticcontent);
+newspromise.then(function (data) {
+    var newsvarmap = new Object();
+    newsvarmap.newsmap = data;
+    newsvarmap.newsinsertmap = {};
+    newsvarmap.newsdeletemap = {};
+    newsvarmap.imagedir = staticcontent;
+    crontab.scheduleJob('1-59 * * * *', function () {
+        console.log('Scheduler started');
+        var globalvar = this;
+        serviceLayer.getNewsService.getnewsFromExternalSource(globalvar);
+    }, null, newsvarmap);
+    app.listen(env.runport);
+
+}).catch(function (reason) {
+    throw new Error(reason);
+    });

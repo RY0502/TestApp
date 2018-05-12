@@ -3,3 +3,4 @@ exports.dbBuilderService = require('./DbBuilder');
 exports.getFixtureService = require('./FixtureService');
 exports.getTeamService = require('./TeamService');
 exports.getPlayerService = require('./PlayerService');
+exports.getNewsService = require('./NewsService');

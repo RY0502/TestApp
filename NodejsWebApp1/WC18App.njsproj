@@ -39,6 +39,12 @@
     <Compile Include="Database\index.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Database\Model\News.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Database\NewsDbOps.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Database\PlayerDbOps.js">
       <SubType>Code</SubType>
     </Compile>
@@ -78,6 +84,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Service\Model\Team.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service\NewsService.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Service\PlayerService.js">
