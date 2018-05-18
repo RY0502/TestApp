@@ -1,7 +1,7 @@
 ﻿var dbModels = require('./Model');
 var Q = require('q');
 
-exports.getNewsFromDb = function () {
+exports.getAllNewsFromDb = function () {
     var deferred = Q.defer();
     dbModels.dbNewsModel.newsModel.find(function (err, news) {
         if (err) {
@@ -9,6 +9,23 @@ exports.getNewsFromDb = function () {
         }
         deferred.resolve(news);
     });
+
+    return deferred.promise;
+}
+
+exports.getNewsFromDb = function () {
+    var deferred = Q.defer();
+    dbModels.dbNewsModel.newsModel.find({})
+        .select({
+            "author": 1, "description": 1, "url": 1, "urlToImage": 1, "publishedAt": 1, "_id": 0 })
+        .sort({ publishedAt: 'descending' })
+        .limit(5)
+        .exec(function (err, news) {
+            if (err) {
+                deferred.reject(new Error(err));
+            }
+            deferred.resolve(news);
+        });
 
     return deferred.promise;
 }

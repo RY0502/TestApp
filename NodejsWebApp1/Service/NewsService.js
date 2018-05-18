@@ -7,6 +7,7 @@ var httprequest = require('request');
 const sharp = require('sharp');
 const async = require('async');
 const filesystem = require('fs');
+var utils = require('../Utils');
 
 exports.getnewsFromExternalSource = function (globalvar) {
 
@@ -41,21 +42,22 @@ exports.getnewsFromExternalSource = function (globalvar) {
     }
 }
 
-exports.initialisenews = function (staticcontent) {
+exports.initialisenews = function () {
 
     var deferred = Q.defer();
 
-    var newsGetPromise = newsDb.getNews.getNewsFromDb();
+    var newsGetPromise = newsDb.getNews.getAllNewsFromDb();
 
     newsGetPromise.then(function (data) {
         let newsmap = {};
-        var datalen = data.length;
-        if (data != undefined && datalen > 0) {
+        if (data != undefined && data.length > 0) {
+            var datalen = data.length;
             for (let i = 0; i < datalen; i++) {
-                filesystem.writeFile(staticcontent + '/' + data[i].imagename, data[i].img, 'binary', function (err) {
+                filesystem.writeFile(global.staticcontent + data[i].imagename, data[i].img, 'binary', function (err) {
                     if (err) {
                         console.log('Error writing image during initialization: ' + err);
                     } else {
+                        data[i].img = null;
                         newsmap[data[i].publishedAt] = data[i];
                     }
                     datalen--;
@@ -155,7 +157,7 @@ function deletenews(globalvar) {
         newsDb.getNews.deleteNewsFromDB(delkeys, globalvar, function () {
             for (let i = 0; i < delkeys.length; i++) {
                 let imagetodelete = globalvar.newsmap[delkeys[i]].imagename;
-                filesystem.unlink(globalvar.imagedir + '/' + imagetodelete, function (err) {
+                filesystem.unlink(globalvar.imagedir + imagetodelete, function (err) {
                     if (err) {
                         console.log('Error while deleting image: ' + imagetodelete);
                     } else {
@@ -195,13 +197,13 @@ function downloadimages(newsobject, key, failedimages, globalvar, callback) {
                 .resize(450,260)
                 .on('info', function (info) {
                     console.log('Image height is ' + info.height);
-                }).toFile(globalvar.imagedir+'/'+newsobject.imagename, function (error, info, sucessimages) {
+                }).toFile(globalvar.imagedir+newsobject.imagename, function (error, info, sucessimages) {
                     if (error) {
                         console.log('Error while resizing ' + newsobject.imagename + '\n' + error);
                         failedimages[key] = "error";
                         callback();
                     } else {
-                        filesystem.readFile(globalvar.imagedir + '/' + newsobject.imagename, function (error, data) {
+                        filesystem.readFile(globalvar.imagedir + newsobject.imagename, function (error, data) {
                             if (error) {
                                 console.log('Error while reading downloaded image: ' + error);
                             } else {
@@ -231,4 +233,32 @@ function imagedownloadcallback(error, results) {
     if (error) {
         console.log('Error received for key ' + key);
     }
+}
+
+exports.getNews = function (req, res) {
+
+    var newsGetPromise = newsDb.getNews.getNewsFromDb();
+
+    newsGetPromise.then(function (data) {
+        if (data != undefined && data.length > 0) {
+            var datalen = data.length;
+            for (let i = 0; i < datalen; i++) {
+                let imageurl = data[i].imagename;
+                if (imageurl != undefined && imageurl != '') {
+                    imageurl = constantsutil.STATIC_CONTENT + imageurl;
+                } else {
+                    imageurl = constantsutil.STATIC_CONTENT + 'default.jpg';
+                }
+                data[i].urlToImage = imageurl;
+            }
+            utils.setResponse.setSuccessHeaders(res);
+            res.send(data);
+        } else {
+            utils.setResponse.setFailureHeaders(res);
+            res.send(utils.setResponse.failureObject);
+        }
+    }).catch(function (reason) {
+        console.log('News fetch failed with:', reason);
+        deferred.reject(new Error(reason));
+    });
 }

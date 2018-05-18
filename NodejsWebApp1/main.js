@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var serviceLayer = require('./Service');
 var env = require('./resources/properties');
 var crontab = require('node-crontab');
-const staticcontent = __dirname + '/static_content';
+global.staticcontent = __dirname + '/static_content/';
 
 var app = express()
     .use(express.static(staticcontent, { 'index': [/*'HTMLPage1.html',*/ 'index.htm'] }))
@@ -27,6 +27,9 @@ var app = express()
     })
     app.get('/getplayers', function (req, res, next) {
         serviceLayer.getPlayerService.getPlayers(req, res);
+    })
+    app.get('/getnews', function (req, res, next) {
+        serviceLayer.getNewsService.getNews(req, res);
     })
     app.put('/', function (req, res, next) {
         res.end('put');
