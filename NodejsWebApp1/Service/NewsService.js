@@ -12,7 +12,7 @@ var utils = require('../Utils');
 exports.getnewsFromExternalSource = function (globalvar) {
 
     var deferred = Q.defer();
-    try {
+    //try {
         newsapi.v2.everything({
             q: "'world cup'",
             sources: 'bbc-sport',
@@ -36,10 +36,12 @@ exports.getnewsFromExternalSource = function (globalvar) {
 
             }
             updateNewsDelta(news, globalvar);
-        });
-    } catch (ex) {
+            }).catch (function (reason) {
+                console.log('News fetch failed from external source:', reason);
+            });
+    /*} catch (ex) {
         console.log('News fetch failed from external source:', ex);
-    }
+    }*/
 }
 
 exports.initialisenews = function () {
@@ -194,7 +196,7 @@ function downloadimages(newsobject, key, failedimages, globalvar, callback) {
         let urlimage = newsobject.urlToImage;
         if (urlimage != undefined && urlimage != '' && urlimage != ' ' && urlimage != null) {
             var transformer = sharp()
-                .resize(450,260)
+                .resize(531,500)
                 .on('info', function (info) {
                     console.log('Image height is ' + info.height);
                 }).toFile(globalvar.imagedir+newsobject.imagename, function (error, info, sucessimages) {

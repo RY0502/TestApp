@@ -21,6 +21,7 @@ exports.getFixturesFromDb = function (match) {
 
     } else if (match == utils.constants.LAST) {
         fixMod.find({})
+            .where('matchdate').lt(datetime)
             .sort({ matchdate: 'descending' })
             .limit(1)
             .exec(function (err, fixtures) {
