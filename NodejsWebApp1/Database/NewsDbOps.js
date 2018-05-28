@@ -17,7 +17,7 @@ exports.getNewsFromDb = function () {
     var deferred = Q.defer();
     dbModels.dbNewsModel.newsModel.find({})
         .select({
-            "author": 1, "description": 1, "url": 1, "urlToImage": 1, "publishedAt": 1, "_id": 0 })
+            "author": 1, "title": 1, "url": 1, "urlToImage": 1, "imagename": 1, "publishedAt": 1, "_id": 0 })
         .sort({ publishedAt: 'descending' })
         .limit(5)
         .exec(function (err, news) {

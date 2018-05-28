@@ -196,7 +196,7 @@ function downloadimages(newsobject, key, failedimages, globalvar, callback) {
         let urlimage = newsobject.urlToImage;
         if (urlimage != undefined && urlimage != '' && urlimage != ' ' && urlimage != null) {
             var transformer = sharp()
-                .resize(531,500)
+                .resize(825,500)
                 .on('info', function (info) {
                     console.log('Image height is ' + info.height);
                 }).toFile(globalvar.imagedir+newsobject.imagename, function (error, info, sucessimages) {
@@ -247,9 +247,9 @@ exports.getNews = function (req, res) {
             for (let i = 0; i < datalen; i++) {
                 let imageurl = data[i].imagename;
                 if (imageurl != undefined && imageurl != '') {
-                    imageurl = constantsutil.STATIC_CONTENT + imageurl;
+                    imageurl =  imageurl;
                 } else {
-                    imageurl = constantsutil.STATIC_CONTENT + 'default.jpg';
+                    imageurl =  'default.jpg';
                 }
                 data[i].urlToImage = imageurl;
             }

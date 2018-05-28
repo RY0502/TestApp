@@ -95,6 +95,9 @@
     <Compile Include="Service\TeamService.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Service\VideoDataService.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utils\constants.js">
       <SubType>Code</SubType>
     </Compile>

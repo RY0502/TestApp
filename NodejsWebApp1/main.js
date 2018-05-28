@@ -31,6 +31,9 @@ var app = express()
     app.get('/getnews', function (req, res, next) {
         serviceLayer.getNewsService.getNews(req, res);
     })
+    app.get('/gettrendingvideos', function (req, res, next) {
+    serviceLayer.getVideoDataService.getVideoData(req, res);
+    })
     app.put('/', function (req, res, next) {
         res.end('put');
     })
